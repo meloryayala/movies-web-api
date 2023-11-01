@@ -18,4 +18,10 @@ public class MovieController : ControllerBase
             Console.WriteLine(movie.Duration);
         }
     }
+
+    [HttpGet]
+    public IEnumerable<Movie> ReadMovies()
+    {
+        return movies;
+    }
 }
