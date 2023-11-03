@@ -25,7 +25,9 @@ public class CineController: ControllerBase
         Cine cine = _mapper.Map<Cine>(cineDto);
         _context.Cines.Add(cine);
         _context.SaveChanges();
-        return Ok(cine);
+        return CreatedAtAction(nameof(RecoverCineById), 
+            new { id = cine.Id},
+            cine);
     }
     
     [HttpGet]
@@ -42,5 +44,6 @@ public class CineController: ControllerBase
         var cineDto = _mapper.Map<ReadCineDto>(cine);
         return Ok(cineDto);
     }
+    
     
 }
