@@ -33,5 +33,14 @@ public class CineController: ControllerBase
     {
         return _mapper.Map<List<ReadMovieDto>>(_context.Cines.Skip(skip).Take(take));
     }
+
+    [HttpGet("{id}")]
+    public IActionResult RecoverCineById(int id)
+    {
+        var cine = _context.Cines.FirstOrDefault(cine => cine.Id == id);
+        if (cine == null) return NotFound();
+        var cineDto = _mapper.Map<ReadCineDto>(cine);
+        return Ok(cineDto);
+    }
     
 }
