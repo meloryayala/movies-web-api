@@ -8,7 +8,7 @@ namespace movies_api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class CineController: ControllerBase
+public class CineController : ControllerBase
 {
     private MovieContext _context;
     private IMapper _mapper;
@@ -25,11 +25,11 @@ public class CineController: ControllerBase
         Cine cine = _mapper.Map<Cine>(cineDto);
         _context.Cines.Add(cine);
         _context.SaveChanges();
-        return CreatedAtAction(nameof(RecoverCineById), 
-            new { id = cine.Id},
+        return CreatedAtAction(nameof(RecoverCineById),
+            new { id = cine.Id },
             cine);
     }
-    
+
     [HttpGet]
     public IEnumerable<ReadMovieDto> RecoverCines([FromQuery] int skip, [FromQuery] int take)
     {
@@ -40,9 +40,13 @@ public class CineController: ControllerBase
     public IActionResult RecoverCineById(int id)
     {
         var cine = _context.Cines.FirstOrDefault(cine => cine.Id == id);
-        if (cine == null) return NotFound();
-        var cineDto = _mapper.Map<ReadCineDto>(cine);
-        return Ok(cineDto);
+        if (cine != null)
+        {
+            ReadCineDto cineDto = _mapper.Map<ReadCineDto>(cine);
+            return Ok(cineDto);
+        }
+
+        return NotFound();
     }
 
     [HttpPut("{id}")]
