@@ -44,6 +44,14 @@ public class CineController: ControllerBase
         var cineDto = _mapper.Map<ReadCineDto>(cine);
         return Ok(cineDto);
     }
-    
+
+    [HttpPut("{id}")]
+    public IActionResult UpdateCine(int id, [FromBody] UpdateCineDto cineDto)
+    {
+        var cine = _context.Cines.FirstOrDefault(cine => cine.Id == id);
+        if (cine == null) return NotFound();
+        _mapper.Map(cineDto, cine);
+        return NoContent();
+    }
     
 }
