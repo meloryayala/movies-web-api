@@ -20,7 +20,14 @@ public class MovieController : ControllerBase
         _mapper = mapper;
     }
 
+    /// <summary>
+    /// Add movie on the database
+    /// </summary>
+    /// <param name="movieDto">Object needed to add data</param>
+    /// <returns>IActionResult</returns>
+    /// <response code="201">Once the request is completed successfully</response>
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     public IActionResult AddMovie([FromBody] CreateMovieDto movieDto)
     {
         Movie movie = _mapper.Map<Movie>(movieDto);
@@ -31,12 +38,23 @@ public class MovieController : ControllerBase
                 , movie);
     }
 
+    /// <summary>
+    /// Recover the list of movies with pagination
+    /// </summary>
+    /// <returns>IEnumarable></returns>
+    /// <response code="200">Once the request is completed successfully</response>
     [HttpGet]
     public IEnumerable<ReadMovieDto> ReadMovies([FromQuery] int skip = 0, [FromQuery] int take = 50)
     {
         return _mapper.Map<List<ReadMovieDto>>(_context.Movies.Skip(skip).Take(take));
     }
-
+    
+    /// <summary>
+    /// Recover a movie by Id 
+    /// </summary>
+    /// <param name="movieDto">Object needed to recover object data</param>
+    /// <returns>IActionResult</returns>
+    /// <response code="200">Once the request is completed successfully</response>
     [HttpGet("{id}")]
     public IActionResult ReadMovieById(int id)
     {
@@ -45,7 +63,13 @@ public class MovieController : ControllerBase
         var movieDto = _mapper.Map<ReadMovieDto>(movie);
         return Ok(movieDto);
     }
-
+    
+    /// <summary>
+    /// Update all data fields from a movie
+    /// </summary>
+    /// <param name="movieDto">Object needed to update data fields</param>
+    /// <returns>IActionResult</returns>
+    /// <response code="204">Once the request is completed successfully</response>
     [HttpPut("{id}")]
     public IActionResult UpdateMovie(int id, [FromBody] UpdateMovieDto movieDto)
     {
@@ -56,6 +80,12 @@ public class MovieController : ControllerBase
         return NoContent();
     }
     
+    /// <summary>
+    /// Update data fields partially from movie
+    /// </summary>
+    /// <param name="movieDto">Object needed to update data fields</param>
+    /// <returns>IActionResult</returns>
+    /// <response code="204">Once the request is completed successfully</response>
     [HttpPatch("{id}")]
     public IActionResult UpdateMovieParcial(int id, JsonPatchDocument<UpdateMovieDto> patch)
     {
@@ -74,6 +104,12 @@ public class MovieController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Delete a movie from the database
+    /// </summary>
+    /// <param name="movieDto">Object needed to delete the data</param>
+    /// <returns>IActionResult</returns>
+    /// <response code="204">Once the request is completed successfully</response>
     [HttpDelete("{id}")]
     public IActionResult DeleteMovie(int id)
     {
