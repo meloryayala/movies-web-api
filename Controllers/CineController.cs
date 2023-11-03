@@ -28,4 +28,10 @@ public class CineController: ControllerBase
         return Ok(cine);
     }
     
+    [HttpGet]
+    public IEnumerable<ReadMovieDto> RecoverCines([FromQuery] int skip, [FromQuery] int take)
+    {
+        return _mapper.Map<List<ReadMovieDto>>(_context.Cines.Skip(skip).Take(take));
+    }
+    
 }
