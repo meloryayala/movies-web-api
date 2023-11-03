@@ -44,6 +44,7 @@ public class MovieController : ControllerBase
     /// <returns>IEnumarable></returns>
     /// <response code="200">Once the request is completed successfully</response>
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public IEnumerable<ReadMovieDto> ReadMovies([FromQuery] int skip = 0, [FromQuery] int take = 50)
     {
         return _mapper.Map<List<ReadMovieDto>>(_context.Movies.Skip(skip).Take(take));
@@ -56,6 +57,7 @@ public class MovieController : ControllerBase
     /// <returns>IActionResult</returns>
     /// <response code="200">Once the request is completed successfully</response>
     [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public IActionResult ReadMovieById(int id)
     {
         var movie = _context.Movies.FirstOrDefault(movie => movie.Id == id);
@@ -71,6 +73,7 @@ public class MovieController : ControllerBase
     /// <returns>IActionResult</returns>
     /// <response code="204">Once the request is completed successfully</response>
     [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public IActionResult UpdateMovie(int id, [FromBody] UpdateMovieDto movieDto)
     {
         var movie = _context.Movies.FirstOrDefault(movie => movie.Id == id);
@@ -87,6 +90,7 @@ public class MovieController : ControllerBase
     /// <returns>IActionResult</returns>
     /// <response code="204">Once the request is completed successfully</response>
     [HttpPatch("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public IActionResult UpdateMovieParcial(int id, JsonPatchDocument<UpdateMovieDto> patch)
     {
         var movie = _context.Movies.FirstOrDefault(movie => movie.Id == id);
@@ -111,6 +115,7 @@ public class MovieController : ControllerBase
     /// <returns>IActionResult</returns>
     /// <response code="204">Once the request is completed successfully</response>
     [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public IActionResult DeleteMovie(int id)
     {
         var movie = _context.Movies.FirstOrDefault(movie => movie.Id == id);

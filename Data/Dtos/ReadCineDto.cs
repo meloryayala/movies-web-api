@@ -1,8 +1,7 @@
 using System.ComponentModel.DataAnnotations;
+namespace movies_api.Data.Dtos;
 
-namespace movies_api.Models;
-
-public class MovieTheater
+public class ReadCineDto
 {
     [Key]
     [Required]
