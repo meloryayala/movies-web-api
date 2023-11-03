@@ -51,7 +51,17 @@ public class CineController: ControllerBase
         var cine = _context.Cines.FirstOrDefault(cine => cine.Id == id);
         if (cine == null) return NotFound();
         _mapper.Map(cineDto, cine);
+        _context.SaveChanges();
         return NoContent();
     }
-    
+
+    [HttpDelete("{id}")]
+    public IActionResult DeleteCine(int id)
+    {
+        var cine = _context.Cines.FirstOrDefault(cine => cine.Id == id);
+        if (cine == null) return NotFound();
+        _context.Remove(cine);
+        _context.SaveChanges();
+        return NoContent();
+    }
 }
