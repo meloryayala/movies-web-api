@@ -1,4 +1,5 @@
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using movies_api.Data;
 using movies_api.Data.Dtos;
@@ -46,7 +47,16 @@ public class CineController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     public IEnumerable<ReadCineDto> RecoverCines([FromQuery] int skip = 0, [FromQuery] int take = 50)
     {
-        return _mapper.Map<List<ReadMovieDto>>(_context.Cines.Skip(skip).Take(take));
+        return _context.Cines
+            .Skip(skip)
+            .Take(take)
+            .ProjectTo<ReadCineDto>(_mapper.ConfigurationProvider)
+            .ToList();
+        
+        
+        //Form 2 to autoMapper, it needs to materialize  
+        // var cineList = _context.Cines.Skip(skip).Take(take).ToList();
+        // return _mapper.Map<List<ReadCineDto>>(cineList);
     }
 
     /// <summary>
