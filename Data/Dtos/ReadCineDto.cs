@@ -9,4 +9,6 @@ public class ReadCineDto
     
     [Required(ErrorMessage = "The field name is required")]
     public string Name { get; set; }
+    
+    public ReadAdressDto ReadAdressDto { get; set; }
 }
