@@ -12,5 +12,8 @@ public class MovieContext : DbContext
     
     public DbSet<Movie> Movies { get; set; } = null!;
 
-    public DbSet<Cine> Cines { get; set; } = null;
+    public DbSet<Cine> Cines { get; set; } = null!;
+
+    public DbSet<Adress> Adresses { get; set; } = null!;
+
 }
