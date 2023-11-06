@@ -10,4 +10,8 @@ public class Cine
     
     [Required(ErrorMessage = "The field name is required")]
     public string Name { get; set; }
+    
+    public int AdressId { get; set; }
+    
+    public virtual Adress Adress { get; set; }
 }

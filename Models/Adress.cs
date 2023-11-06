@@ -13,4 +13,6 @@ public class Adress
     
     [Required(ErrorMessage = "The number adress is required")]
     public int Number { get; set; }
+    
+    public virtual Cine Cine { get; set; }
 }
