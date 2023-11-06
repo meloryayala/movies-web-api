@@ -25,11 +25,11 @@ public class AdressController : ControllerBase
         Adress adress = _mapper.Map<Adress>(adressDto);
         _context.Adresses.Add(adress);
         _context.SaveChanges();
-        return CreatedAtAction(nameof(ReadAdressById), new { id = adress.Id }, adressDto);
+        return CreatedAtAction(nameof(ReadAdressById), new { Id = adress.Id }, adress);
     }
 
     [HttpGet]
-    public IEnumerable<ReadAdressDto> ReadAdresses([FromQuery] int skip, [FromQuery] int take)
+    public IEnumerable<ReadAdressDto> ReadAdresses([FromQuery] int skip = 0, [FromQuery] int take = 50)
     {
         return _mapper.Map<List<ReadAdressDto>>(_context.Adresses.Skip(skip).Take(take));
     }

@@ -44,7 +44,7 @@ public class CineController : ControllerBase
     /// <response code="200">Once the request is completed successfully</response>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public IEnumerable<ReadMovieDto> RecoverCines([FromQuery] int skip, [FromQuery] int take)
+    public IEnumerable<ReadCineDto> RecoverCines([FromQuery] int skip = 0, [FromQuery] int take = 50)
     {
         return _mapper.Map<List<ReadMovieDto>>(_context.Cines.Skip(skip).Take(take));
     }
