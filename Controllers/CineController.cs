@@ -19,7 +19,14 @@ public class CineController : ControllerBase
         _mapper = mapper;
     }
 
+    /// <summary>
+    /// Add cine on the database
+    /// </summary>
+    /// <param name="movieDto">Object needed to add data</param>
+    /// <returns>IActionResult</returns>
+    /// <response code="201">Once the request is completed successfully</response>
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     public IActionResult AddCine([FromBody] CreateCineDto cineDto)
     {
         Cine cine = _mapper.Map<Cine>(cineDto);
@@ -27,16 +34,29 @@ public class CineController : ControllerBase
         _context.SaveChanges();
         return CreatedAtAction(nameof(RecoverCineById),
             new { id = cine.Id },
-            cine);
+            cineDto);
     }
 
+    /// <summary>
+    /// Recover the list of cines with pagination
+    /// </summary>
+    /// <returns>IEnumarable></returns>
+    /// <response code="200">Once the request is completed successfully</response>
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public IEnumerable<ReadMovieDto> RecoverCines([FromQuery] int skip, [FromQuery] int take)
     {
         return _mapper.Map<List<ReadMovieDto>>(_context.Cines.Skip(skip).Take(take));
     }
 
+    /// <summary>
+    /// Recover a cine by Id 
+    /// </summary>
+    /// <param name="movieDto">Object needed to recover object data</param>
+    /// <returns>IActionResult</returns>
+    /// <response code="200">Once the request is completed successfully</response>
     [HttpGet("{id}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public IActionResult RecoverCineById(int id)
     {
         var cine = _context.Cines.FirstOrDefault(cine => cine.Id == id);
@@ -48,8 +68,15 @@ public class CineController : ControllerBase
 
         return NotFound();
     }
-
+    
+    /// <summary>
+    /// Update all data fields from a cine
+    /// </summary>
+    /// <param name="movieDto">Object needed to update data fields</param>
+    /// <returns>IActionResult</returns>
+    /// <response code="204">Once the request is completed successfully</response>
     [HttpPut("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public IActionResult UpdateCine(int id, [FromBody] UpdateCineDto cineDto)
     {
         var cine = _context.Cines.FirstOrDefault(cine => cine.Id == id);
@@ -59,7 +86,14 @@ public class CineController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Delete a cine from the database
+    /// </summary>
+    /// <param name="movieDto">Object needed to delete the data</param>
+    /// <returns>IActionResult</returns>
+    /// <response code="204">Once the request is completed successfully</response>
     [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     public IActionResult DeleteCine(int id)
     {
         var cine = _context.Cines.FirstOrDefault(cine => cine.Id == id);
