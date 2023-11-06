@@ -16,4 +16,6 @@ public class MovieContext : DbContext
 
     public DbSet<Adress> Adresses { get; set; } = null!;
 
+    public DbSet<Session> Sessions { get; set; } = null!;
+
 }
