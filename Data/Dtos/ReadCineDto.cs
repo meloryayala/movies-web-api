@@ -11,4 +11,6 @@ public class ReadCineDto
     public string Name { get; set; }
     
     public ReadAdressDto Adress { get; set; }
+    
+    public ICollection<ReadSessionDto> Sessions { get; set; }
 }

@@ -31,7 +31,8 @@ public class AdressController : ControllerBase
     [HttpGet]
     public IEnumerable<ReadAdressDto> ReadAdresses([FromQuery] int skip = 0, [FromQuery] int take = 50)
     {
-        return _mapper.Map<List<ReadAdressDto>>(_context.Adresses.Skip(skip).Take(take));
+        var adressList = _context.Adresses.Skip(skip).Take(take).ToList();
+        return _mapper.Map<List<ReadAdressDto>>(adressList);
     }
 
     [HttpGet("{id}")]
