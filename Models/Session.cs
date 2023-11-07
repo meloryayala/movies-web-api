@@ -13,8 +13,7 @@ public class Session
     
     public virtual Movie Movie { get; set; }
     
-    [Required]
-    public int CineId { get; set; }
+    public int? CineId { get; set; }
     
     public virtual Cine Cine { get; set; }
 }
