@@ -14,4 +14,6 @@ public class Cine
     public int AdressId { get; set; }
     
     public virtual Adress Adress { get; set; }
+    
+    public virtual ICollection<Session> Sessions { get; set; }
 }
