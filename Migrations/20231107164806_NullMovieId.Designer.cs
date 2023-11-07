@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using movies_api.Data;
 
@@ -10,9 +11,11 @@ using movies_api.Data;
 namespace movies_api.Migrations
 {
     [DbContext(typeof(MovieContext))]
-    partial class MovieContextModelSnapshot : ModelSnapshot
+    [Migration("20231107164806_NullMovieId")]
+    partial class NullMovieId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,15 +89,21 @@ namespace movies_api.Migrations
 
             modelBuilder.Entity("movies_api.Models.Session", b =>
                 {
-                    b.Property<int?>("MovieId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<int?>("CineId")
                         .HasColumnType("int");
 
-                    b.HasKey("MovieId", "CineId");
+                    b.Property<int?>("MovieId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("CineId");
+
+                    b.HasIndex("MovieId");
 
                     b.ToTable("Sessions");
                 });
@@ -114,15 +123,11 @@ namespace movies_api.Migrations
                 {
                     b.HasOne("movies_api.Models.Cine", "Cine")
                         .WithMany("Sessions")
-                        .HasForeignKey("CineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CineId");
 
                     b.HasOne("movies_api.Models.Movie", "Movie")
                         .WithMany("Sessions")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MovieId");
 
                     b.Navigation("Cine");
 
