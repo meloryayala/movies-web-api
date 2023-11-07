@@ -1,4 +1,5 @@
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using movies_api.Data;
 using movies_api.Data.Dtos;
@@ -31,7 +32,8 @@ public class SessionController : ControllerBase
     [HttpGet]
     public IEnumerable<ReadSessionDto> ReadSessions([FromQuery] int skip = 0, [FromQuery] int take = 50)
     {
-        return _mapper.Map<List<ReadSessionDto>>(_context.Adresses.Skip(skip).Take(take));
+        var sessionList = _context.Sessions.Skip(skip).Take(take).ToList();
+        return _mapper.Map<List<ReadSessionDto>>(sessionList);
     }
 
     [HttpGet("{id}")]
