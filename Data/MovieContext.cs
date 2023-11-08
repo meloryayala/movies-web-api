@@ -24,14 +24,16 @@ public class MovieContext : DbContext
             .HasOne(session => session.Movie)
             .WithMany(movie => movie.Sessions)
             .HasForeignKey(session => session.MovieId);
+
+        builder.Entity<Adress>()
+            .HasOne(adress => adress.Cine)
+            .WithOne(cine => cine.Adress)
+            .OnDelete(DeleteBehavior.Restrict);
     }
     
     public DbSet<Movie> Movies { get; set; } = null!;
-
     public DbSet<Cine> Cines { get; set; } = null!;
-
     public DbSet<Adress> Adresses { get; set; } = null!;
-
     public DbSet<Session> Sessions { get; set; } = null!;
 
 }
