@@ -45,10 +45,26 @@ public class MovieController : ControllerBase
     /// <response code="200">Once the request is completed successfully</response>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public IEnumerable<ReadMovieDto> ReadMovies([FromQuery] int skip = 0, [FromQuery] int take = 50)
+    public IEnumerable<ReadMovieDto> ReadMovies(
+        [FromQuery] int skip = 0, 
+        [FromQuery] int take = 50,
+        [FromQuery] string? cineName = null)
     {
-        var movieList = _context.Movies.Skip(skip).Take(take).ToList();
-        return _mapper.Map<List<ReadMovieDto>>(movieList);
+        if (cineName == null)
+        {
+            var movieList = _context.Movies
+                .Skip(skip)
+                .Take(take)
+                .ToList();
+            return _mapper.Map<List<ReadMovieDto>>(movieList);
+        }
+
+        var cineQuery = _context.Movies
+            .Skip(skip)
+            .Take(take)
+            .Where(movie => movie.Sessions.Any(session => session.Cine.Name == cineName))
+            .ToList();
+        return _mapper.Map<List<ReadMovieDto>>(cineQuery);
     }
     
     /// <summary>
