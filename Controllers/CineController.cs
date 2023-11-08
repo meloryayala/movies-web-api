@@ -34,7 +34,7 @@ public class CineController : ControllerBase
         _context.Cines.Add(cine);
         _context.SaveChanges();
         return CreatedAtAction(nameof(RecoverCineById),
-            new { id = cine.Id },
+            new { Id = cine.Id },
             cineDto);
     }
 
@@ -45,18 +45,26 @@ public class CineController : ControllerBase
     /// <response code="200">Once the request is completed successfully</response>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public IEnumerable<ReadCineDto> RecoverCines([FromQuery] int skip = 0, [FromQuery] int take = 50)
+    public IEnumerable<ReadCineDto> RecoverCines(
+        [FromQuery] int skip = 0,
+        [FromQuery] int take = 50,
+        [FromQuery] int? adressId = null)
     {
-        return _context.Cines
+        if (adressId == null)
+        {
+            return _context.Cines
+                .Skip(skip)
+                .Take(take)
+                .ProjectTo<ReadCineDto>(_mapper.ConfigurationProvider)
+                .ToList();
+        }
+
+        var adressQuery = _context.Cines
             .Skip(skip)
             .Take(take)
-            .ProjectTo<ReadCineDto>(_mapper.ConfigurationProvider)
+            .Where(cine => cine.Adress.Id == adressId)
             .ToList();
-        
-        
-        //Form 2 to autoMapper, it needs to materialize  
-        // var cineList = _context.Cines.Skip(skip).Take(take).ToList();
-        // return _mapper.Map<List<ReadCineDto>>(cineList);
+        return _mapper.Map<List<ReadCineDto>>(adressQuery);
     }
 
     /// <summary>
@@ -78,7 +86,7 @@ public class CineController : ControllerBase
 
         return NotFound();
     }
-    
+
     /// <summary>
     /// Update all data fields from a cine
     /// </summary>
